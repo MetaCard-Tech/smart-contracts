@@ -1,0 +1,3 @@
+archetype pool
+
+variable admin: Optional<address> = None;
