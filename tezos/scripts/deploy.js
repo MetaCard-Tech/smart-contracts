@@ -26,12 +26,13 @@ const init_resources = async (pool_address) => {
 }
 
 const send_gift = async (pool_address) => {
+  const receiver = "tz1aSkwEot3L2kmUvcoxzjMomb9mvBNuzFK6"
+  
   try {
     await call(pool_address, {
       entry: "send",
       arg: {
-        coin_id: 0,
-        receiver: "tz1aSkwEot3L2kmUvcoxzjMomb9mvBNuzFK6",
+        receiver,
         value: 100
       }
     })
@@ -56,10 +57,13 @@ const deploy_pool = async () => {
 }
 
 
-async function main() {
+async function run() {
   const pool_address = await deploy_pool()
   await init_resources(pool_address)
   await send_gift(pool_address)
 }
 
-main()
+// The following line will create the pool smart contract
+// deploy it and then mint stablecoin before sending a 100 stablecoin gift
+// only use for testing
+// run()
