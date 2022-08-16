@@ -1,0 +1,49 @@
+archetype pool(limit: nat, stablecoin_contract: address, initial_owner: address)
+
+variable admin: address = tz1VSUr8wwNhLAzempoch5d6hLRiTh8Cjcjb
+variable admin_candidate : option<address> = none
+
+entry declare_ownership(candidate : address) {
+  called by admin
+  effect {
+    admin_candidate := some(candidate);
+  }
+}
+
+entry claim_ownership() {
+  require {
+    ownership_r1: (admin_candidate ? the = caller : false) otherwise "INVALID_CALLER"
+  }
+  effect {
+    admin := caller;
+    admin_candidate := none
+  }
+}
+
+variable owner: address = initial_owner
+
+record fa12_transfer_request {
+  %from: address;
+  %to: address;
+  amount: nat
+}
+
+entry set_owner(new_owner: address) {
+  called by admin otherwise "EXPECTS_ADMIN"
+  effect {
+    owner := new_owner
+  }
+}
+
+entry send(receiver: address, value: nat) {
+  called by owner or admin otherwise "EXPECTS_OWNER"
+  fail if {
+    f1: value > limit with "TRANSFER_LIMIT_EXCEEDED"
+  } effect {
+    transfer 0tz to stablecoin_contract call %transfer<fa12_transfer_request>({
+      %from = self_address;
+      %to = receiver;
+      amount = value
+    })
+  }
+}
