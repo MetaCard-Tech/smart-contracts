@@ -13,14 +13,14 @@ const _deploy = async (contract, params) => {
   } 
 }
 
-const deploy_greeting_cards = async () => {
+const deploy_greeting_cards = async (owner) => {
   const permits = await _deploy("../contracts/permits.arl", {
-    owner: caller
+    owner
   })
 
   const greeting_cards = await _deploy("../contracts/greeting-cards.arl", {
-    owner: caller,
-    admin: caller,
+    owner,
+    admin: owner,
     permits
   })
 
@@ -55,5 +55,9 @@ const run = async () => {
 // Usage with existing deployment. Please udpate contract address after deployment
 // Greeting Card on Ghostnet KT1J3Uq6SF8XEiuzrFWCMCPwwdbccBdXoJQh
 // https://better-call.dev/ghost/KT1J3Uq6SF8XEiuzrFWCMCPwwdbccBdXoJQh
+
+// KT1UCxGYQkvjBEUm9WJQtEki7souarwFh56k this is a version of the contract where
+// the owner (tz2KGsYFe8KqznPaEucRq6YgfmmLRbNcobvb) is our account 
+// used for minting in develpment environment
 const greeting_card_contract = "KT1J3Uq6SF8XEiuzrFWCMCPwwdbccBdXoJQh"
 mint_greeting_card(greeting_card_contract)

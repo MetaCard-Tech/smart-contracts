@@ -281,20 +281,6 @@ entry mint (tow : address, tid : nat, tmd: map<string, bytes>, roy : list<part>)
   }
 }
 
-entry burn(tid : nat) {
-  constant {
-    token_owner ?is ledger[tid]?.lowner otherwise FA2_TOKEN_UNDEFINED;
-  }
-  require {
-    fa2_r6: is_not_paused();
-    fa2_r7: token_owner = caller otherwise CALLER_NOT_OWNER
-  }
-  effect {
-    ledger.remove(tid);
-    token_metadata.remove(tid);
-    royalties.remove(tid)
-  }
-}
 
 /* GETTERS ----------------------------------------------------------------- */
 
