@@ -8,3 +8,5 @@ migrations
 #Hardhat files
 cache
 artifacts
+
+secrets.json
