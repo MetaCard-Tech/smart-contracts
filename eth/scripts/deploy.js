@@ -33,7 +33,19 @@ async function deployPool() {
   console.log("Pool address:", pool.address)
 }
 
-deployPool()
+async function deployGreetingCards() {
+  const [deployer] = await ethers.getSigners();
+  console.log("Deploying greeting cards contract with the account:", deployer.address)
+  console.log("Account balance: ", (await deployer.getBalance()).toString())
+
+  const GreetingCards = await ethers.getContractFactory("GreetingCardsNFT")
+  const owner = ""
+  const greetingCards = await GreetingCards.deploy(owner)
+
+  console.log("Greeting Cards address:", greetingCards.address)
+}
+
+deployGreetingCards()
   .then(() => process.exit(0))
   .catch((error) => {
     console.error(error)
