@@ -42,8 +42,6 @@ npx hardhat verify --network ropsten DEPLOYED_CONTRACT_ADDRESS "Hello, Hardhat!"
 ```
 
 # Contract address (testing)
-## TEZOS
-KT1KQK87RJBNd7cRL45DkvHo8UaLA8RskS74
 ## BSC
 ### TESTNET
 - Pool: 0xf853794d389D4250B1Ad78772e373dD0F2c94636
