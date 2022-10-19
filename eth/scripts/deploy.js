@@ -3,28 +3,51 @@
 //
 // When running the script with `npx hardhat run <script>` you'll find the Hardhat
 // Runtime Environment's members available in the global scope.
-const hre = require("hardhat");
+const { ethers } = require("hardhat");
 
-async function main() {
-  // Hardhat always runs the compile task when running scripts with its command
-  // line interface.
-  //
-  // If this script is run directly using `node` you may want to call compile
-  // manually to make sure everything is compiled
-  // await hre.run('compile');
 
-  // We get the contract to deploy
-  const Greeter = await hre.ethers.getContractFactory("Greeter");
-  const greeter = await Greeter.deploy("Hello, Hardhat!");
+async function deployToken() {
+  const [deployer] = await ethers.getSigners()
 
-  await greeter.deployed();
+  console.log("Deploying token contract with the account:", deployer.address)
+  console.log("Account balance: ", (await deployer.getBalance()).toString())
 
-  console.log("Greeter deployed to:", greeter.address);
+  const Token = await ethers.getContractFactory("BEP40Token")
+  const token = await Token.deploy();
+
+  console.log("Token address:", token.address)
 }
 
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
-main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+
+async function deployPool() {
+  const [deployer] = await ethers.getSigners();
+
+  console.log("Deploying pool contract with the account:", deployer.address)
+  console.log("Account balance: ", (await deployer.getBalance()).toString())
+
+  const Pool = await ethers.getContractFactory("Pool")
+  const owner = ""
+  const stablecoinContract = "0x3Aa847B2008E326f8f453289384A4FF0AB2412ca"
+  const pool = await Pool.deploy(owner, stablecoinContract)
+
+  console.log("Pool address:", pool.address)
+}
+
+async function deployGreetingCards() {
+  const [deployer] = await ethers.getSigners();
+  console.log("Deploying greeting cards contract with the account:", deployer.address)
+  console.log("Account balance: ", (await deployer.getBalance()).toString())
+
+  const GreetingCards = await ethers.getContractFactory("GreetingCardsNFT")
+  const owner = ""
+  const greetingCards = await GreetingCards.deploy(owner)
+
+  console.log("Greeting Cards address:", greetingCards.address)
+}
+
+deployGreetingCards()
+  .then(() => process.exit(0))
+  .catch((error) => {
+    console.error(error)
+    process.exit(1)
+  })

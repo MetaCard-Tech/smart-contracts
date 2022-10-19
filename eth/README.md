@@ -41,6 +41,11 @@ Then, copy the deployment address and paste it in to replace `DEPLOYED_CONTRACT_
 npx hardhat verify --network ropsten DEPLOYED_CONTRACT_ADDRESS "Hello, Hardhat!"
 ```
 
-#Contract address (testing)
-
+# Contract address (testing)
+## TEZOS
 KT1KQK87RJBNd7cRL45DkvHo8UaLA8RskS74
+## BSC
+### TESTNET
+- Pool: 0xf853794d389D4250B1Ad78772e373dD0F2c94636
+- StableCoint: 0x3Aa847B2008E326f8f453289384A4FF0AB2412ca
+- Greeting Cards: 0xF5D9b9Ff17bfDCCdf83838EE01677647D3508331
